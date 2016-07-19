@@ -1,0 +1,83 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Local JSON</title>
+</head>
+<body>
+
+	<button>Get Colors!!</button>
+	<ul></ul>
+
+	<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script>
+
+		$("button").on('click', function() {
+
+			$.ajax({
+				url: 'data.json',
+			})
+			.done(function( data ) {
+					var optionsSelect = "";
+					$.each ( data.colorsArray, function ( index, oColor) {
+						optionsSelect += "<li>" + oColor.colorName + " </li>"
+					})
+					$("ul").html(optionsSelect);
+			})
+
+
+		});
+	</script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Local JSON</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<button class="btn">Get Colors!!</button></div>
+		<div class="row">
+			<div class="col-md-3">
+				<select></select>
+			</div>
+			<div class="col-md-9">
+				<div class="alert alert-info" role="alert"></div>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script>
+
+		$("select").on('change', function() {
+			$(".alert").html( "The related value is : " + $(this).val()  )
+		});
+
+		$("button").on('click', function() {
+
+			$.ajax({
+				url: 'data.json',
+			})
+			.done(function( data ) {
+
+					var optionsSelect = "";
+					$.each ( data.colorsArray, function ( index, oColor) {
+						optionsSelect += '<option value="' + oColor.hexValue + '">' + oColor.colorName + ' </option>'
+					})
+					$("select").html(optionsSelect);
+			})
+
+
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Spotify</title>
+</head>
+<body>
+	<form action="">
+		<fieldset>
+			<legend>Search Artist</legend>
+			<div>
+				<label for="search">I want to find... </label>
+				<input type="text" id="search">
+			</div>
+			<button>Search!!</button>
+		</fieldset>
+
+		<fieldset>
+			<legend>Artists</legend>
+			<div>
+				<select name="" id="artists"></select>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<legend>Albums</legend>
+			<div>
+				<select name="" id="albums"></select>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<legend>Tracks</legend>
+			<div>
+				<ul id="lista"></ul>
+			</div>
+		</fieldset>
+
+	</form>
+	<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script>
+
+		$("form").on('submit', function(event) {
+
+			event.preventDefault();
+			var searchValue = $("#search").val();
+			var apiSearch = "https://api.spotify.com/v1/search?type=artist&query=";
+
+			$.ajax({
+				url: apiSearch + searchValue
+			})
+			.done(function( searchResultsData ) {
+
+				var artists = searchResultsData.artists.items;
+
+				var optionsArtists = "<option> Selecciona un artista</option>";
+				$.each ( artists, function ( index, oArtist) {
+					optionsArtists += '<option value="' + oArtist.id + '">' + oArtist.name + ' </option>'
+				})
+				$("#artists").html(optionsArtists);
+
+			})
+		});
+
+		$("#artists").on('change', function(event) {
+
+			var artistValue = $("#artists").val();
+					// console.log(artistValue);
+			var apiArtists = "https://api.spotify.com/v1/artists/" + artistValue + "/albums";
+					// console.log(apiArtists);
+			$.ajax({
+				url: apiArtists
+			})
+			.done(function( searchResultsData2 ) {
+
+				var albums = searchResultsData2.items;
+
+				var optionsAlbums = "<option> Selecciona un album</option>";
+				$.each ( albums, function ( index, oAlbums) {
+					optionsAlbums += '<option value="' + oAlbums.id + '">' + oAlbums.name + ' </option>'
+				})
+				$("#albums").html(optionsAlbums);
+
+			})
+		});
+
+		$("#albums").on('change', function(event) {
+
+			var albumValue = $("#albums").val();
+					// console.log(albumValue);
+			var apiAlbum = "https://api.spotify.com/v1/albums/" + albumValue + "/tracks";
+					// console.log(apiAlbum);
+			$.ajax({
+				url: apiAlbum
+			})
+			.done(function( searchResultsData3 ) {
+
+				var songs = searchResultsData3.items;
+
+				var optionsSongs = "";
+				$.each ( songs, function ( index, oSongs) {
+					optionsSongs += '<li><a href="' + oSongs.preview_url + '" target="_blank">' + oSongs.name + '</a></li>'
+				})
+				$("#lista").html(optionsSongs);
+
+			})
+		});
+
+	</script>
+</body>
+</html>

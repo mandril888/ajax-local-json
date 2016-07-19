@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>youtube json</title>
+</head>
+<body>
+	
+	<button>click to see the tittle</button>
+	<p></p>
+	<section></section>
+
+<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script>
+
+		$("button").on('click', function() {
+
+			$.ajax({
+				url: 'materials/youtube.json',
+			})
+			.done(function( youtube ) {
+				var tittleInfo = youtube.data.items[0].title;
+				$("p").html( tittleInfo );
+			})
+
+		});
+
+		$.ajax({
+				url: 'materials/youtube.json',
+			})
+			.done(function( youtube ) {
+				var idVideoUrl = youtube.data.items[0].id;
+				var photoUrl = youtube.data.items[0].thumbnail.default;
+				$("section").html( '<a href="http://www.youtube.com/watch?v=' + idVideoUrl + '" target="_blank"><img src="' + photoUrl + '"></a>')
+			})
+
+
+	</script>
+</body>
+</html>
