@@ -3,48 +3,63 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Spotify</title>
+	
+	<link rel="stylesheet" href="css/styles.css">
+
 </head>
 <body>
-	<form action="">
-		<fieldset>
-			<legend>Search Artist</legend>
-			<div>
-				<label for="search">I want to find... </label>
-				<input type="text" id="search">
-			</div>
-			<button>Search!!</button>
-		</fieldset>
+	
+	<div class="container">
 
-		<fieldset>
-			<legend>Artists</legend>
-			<div>
-				<select name="" id="artists"></select>
-			</div>
-		</fieldset>
+		<h2>SPOTIFY API</h2>
 
-		<fieldset>
-			<legend>Albums</legend>
-			<div>
-				<select name="" id="albums"></select>
-			</div>
-		</fieldset>
+		<form action=""> <!-- FORM -->
 
-		<fieldset>
-			<legend>Tracks</legend>
-			<div>
-				<ul id="lista"></ul>
-			</div>
-		</fieldset>
+			<fieldset id="firstStep">
+				<legend>Search Artist</legend>
+				<div>
+					<label for="search">I want to find... </label>
+					<input type="text" id="search">
+				</div>
+				<button>Search</button>
+			</fieldset>
 
-	</form>
+			<fieldset id="secondStep" class="hidden">
+				<legend>Artists</legend>
+				<div>
+					<select name="" id="artists"></select>
+				</div>
+			</fieldset>
+
+			<fieldset id="thirdStep" class="hidden">
+				<legend>Albums</legend>
+				<div>
+					<select name="" id="albums"></select>
+				</div>
+			</fieldset>
+
+			<fieldset id="fourthStep" class="hidden">
+				<legend>Tracks</legend>
+				<div>
+					<ol id="lista"></ol>
+				</div>
+			</fieldset>
+
+		</form> <!-- /FORM -->
+
+	</div>
+
 	<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script>
+
+		// if ( $("#search").val() ) { $('button').prop('disabled', false) }
 
 		$("form").on('submit', function(event) {
 
 			event.preventDefault();
 			var searchValue = $("#search").val();
 			var apiSearch = "https://api.spotify.com/v1/search?type=artist&query=";
+			$("#secondStep").removeClass('hidden');
 
 			$.ajax({
 				url: apiSearch + searchValue
@@ -57,6 +72,7 @@
 				$.each ( artists, function ( index, oArtist) {
 					optionsArtists += '<option value="' + oArtist.id + '">' + oArtist.name + ' </option>'
 				})
+				
 				$("#artists").html(optionsArtists);
 
 			})
@@ -68,6 +84,7 @@
 					// console.log(artistValue);
 			var apiArtists = "https://api.spotify.com/v1/artists/" + artistValue + "/albums";
 					// console.log(apiArtists);
+			$("#thirdStep").removeClass('hidden');
 			$.ajax({
 				url: apiArtists
 			})
@@ -79,6 +96,7 @@
 				$.each ( albums, function ( index, oAlbums) {
 					optionsAlbums += '<option value="' + oAlbums.id + '">' + oAlbums.name + ' </option>'
 				})
+				
 				$("#albums").html(optionsAlbums);
 
 			})
@@ -90,6 +108,7 @@
 					// console.log(albumValue);
 			var apiAlbum = "https://api.spotify.com/v1/albums/" + albumValue + "/tracks";
 					// console.log(apiAlbum);
+			$("#fourthStep").removeClass('hidden');
 			$.ajax({
 				url: apiAlbum
 			})
@@ -101,6 +120,7 @@
 				$.each ( songs, function ( index, oSongs) {
 					optionsSongs += '<li><a href="' + oSongs.preview_url + '" target="_blank">' + oSongs.name + '</a></li>'
 				})
+				
 				$("#lista").html(optionsSongs);
 
 			})
