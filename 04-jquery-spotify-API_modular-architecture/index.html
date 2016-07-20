@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Spotify</title>
+	
+	<link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+	
+	<div class="container">
+
+		<h2>SPOTIFY API</h2>
+
+		<form action=""> <!-- FORM -->
+
+			<fieldset id="firstStep">
+				<legend>Search Artist</legend>
+				<div>
+					<label for="search">I want to find... </label>
+					<input type="text" id="search">
+				</div>
+				<button>Search</button>
+			</fieldset>
+
+			<fieldset id="secondStep" class="hidden">
+				<legend>Artists</legend>
+				<div>
+					<select name="" id="artists"></select>
+				</div>
+			</fieldset>
+
+			<fieldset id="thirdStep" class="hidden">
+				<legend>Albums</legend>
+				<div>
+					<select name="" id="albums"></select>
+				</div>
+			</fieldset>
+
+			<fieldset id="fourthStep" class="hidden">
+				<legend>Tracks</legend>
+				<div>
+					<ol id="lista"></ol>
+				</div>
+			</fieldset>
+
+		</form> <!-- /FORM -->
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+	
+	<script src="js-modules/searchAjax.js"></script>
+	<script src="js-modules/searchArtist.js"></script>
+	<script src="js-modules/printArtist.js"></script>
+	<script src="js-modules/searchAlbums.js"></script>
+	<script src="js-modules/printAlbums.js"></script>
+	<script src="js-modules/searchSongs.js"></script>
+	<script src="js-modules/printSongs.js"></script>
+</body>
+</html>
