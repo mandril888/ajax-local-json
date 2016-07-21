@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Clock timezone</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"> -->
+
+	<!-- Latest compiled and minified JavaScript -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script> -->
+
+</head>
+<body>
+
+	<div class="container">
+		<div>
+			<p id="hour">hora</p>
+			<p id="zone">zona</p>
+			<p id="info">Convert to time zone</p>
+		</div>
+		<div>
+			<select id="options">
+			  <!-- <option></option> -->
+			</select>
+		</div>
+	</div>
+
+<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script>
+
+	var key = '8X1E7B5AWCHV';
+	var format = 'json';
+	var urlListTimeZoneDefault = 'http://api.timezonedb.com/v2/list-time-zone?key=' + key + '&format=' + format;
+
+	$( document ).on('ready', function(event) {
+
+		$.ajax({
+			url: urlListTimeZoneDefault
+		})
+		.done(function( searchResultsData ) {
+
+			var objRecived = searchResultsData.zones;
+			var listOptions = '';
+			$.each ( objRecived, function ( index, oObjRecived) {
+				listOptions += '<option value="' + oObjRecived.countryCode + '">' + oObjRecived.zoneName + '</option>';
+			})
+			
+			$("#options").html(listOptions);
+
+		})
+	});
+
+
+	$( '#options' ).on('change', function(event) {
+
+		var zoneName = $('option').val();
+		console.log(zoneName);
+		$('#zone').html(zoneName);
+
+		var codeCountry = $('#options').val();
+		var urlGetTimeZoneDefault = 'http://api.timezonedb.com/v2/list-time-zone?key=' + key + '&format=' + format + '&country=' + codeCountry;
+
+		$.ajax({
+			url: urlGetTimeZoneDefault
+		})
+		.done(function( searchResultsData2 ) {
+
+		// 	var objRecived = searchResultsData2.timestamp;
+		// 	var date = new Date( objRecived )
+
+		// $("#hour").html(listOptions);
+
+		})
+	});
+
+
+</script>
+	
+</body>
+</html>
