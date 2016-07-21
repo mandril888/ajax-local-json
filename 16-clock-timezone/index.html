@@ -20,20 +20,20 @@
 			<p id="info">Convert to time zone</p>
 		</div>
 		<div>
-			<select id="options">
-			  <!-- <option></option> -->
-			</select>
+			<select id="options"></select>
 		</div>
 	</div>
 
 <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="dist/jstz.min.js"></script>
 <script>
 
 	var key = '8X1E7B5AWCHV';
 	var format = 'json';
 	var urlListTimeZoneDefault = 'http://api.timezonedb.com/v2/list-time-zone?key=' + key + '&format=' + format;
+	console.log(urlListTimeZoneDefault)
 
-	$( document ).on('ready', function(event) {
+	$( document ).on( 'ready', function( event ) {
 
 		$.ajax({
 			url: urlListTimeZoneDefault
@@ -47,29 +47,36 @@
 			})
 			
 			$("#options").html(listOptions);
+			var zoneNameVal = $('#options option:selected').html();
+			$('#zone').html(zoneNameVal);
 
 		})
 	});
 
 
-	$( '#options' ).on('change', function(event) {
+	$( '#options' ).on( 'change', function( event ) {
 
-		var zoneName = $('option').val();
-		console.log(zoneName);
-		$('#zone').html(zoneName);
-
-		var codeCountry = $('#options').val();
+		var codeCountry = $('#options option:selected').val();
 		var urlGetTimeZoneDefault = 'http://api.timezonedb.com/v2/list-time-zone?key=' + key + '&format=' + format + '&country=' + codeCountry;
+		console.log(urlGetTimeZoneDefault)
 
 		$.ajax({
 			url: urlGetTimeZoneDefault
 		})
 		.done(function( searchResultsData2 ) {
 
-		// 	var objRecived = searchResultsData2.timestamp;
-		// 	var date = new Date( objRecived )
+			var timeRecived = searchResultsData2.zones[0].timestamp;
+			console.log(timeRecived);
+			var date = new Date( timeRecived );
+			var hours = date.getHours();
+			var minutes = date.getMinutes();
+			var seconds = date.getSeconds();
 
-		// $("#hour").html(listOptions);
+			if ( hours < 10 ) { hours = '0' + hours }
+			if ( minutes < 10 ) { minutes = '0' + minutes }
+			if ( seconds < 10 ) { seconds = '0' + seconds }
+
+			$("#hour").html('<span>' + hours + ':' + minutes + ':' + seconds + '</span>');
 
 		})
 	});
